@@ -1,0 +1,60 @@
+<ClipItems Version="3">
+    <TrackItems Version="1">
+        <TrackItem Index="0" ObjectRef="158"/>
+    </TrackItems>
+    <MediaType>228cda18-3625-4d2d-951e-348879e4ed93</MediaType>
+    <Index>0</Index>
+</ClipItems>
+
+<VideoClipTrackItem ObjectID="158" ClassID="368b0406-29e3-4923-9fcd-094fbf9a1089" Version="6">
+    <ClipTrackItem Version="8">
+        <ComponentOwner Version="1">
+            <Components ObjectRef="185"/>
+        </ComponentOwner>
+        <TrackItem Version="3">
+            <Start>0</Start>
+            <End>151891407360000</End>
+        </TrackItem>
+        <SubClip ObjectRef="186"/>
+    </ClipTrackItem>
+    <FrameRect>0,0,3840,2160</FrameRect>
+    <PixelAspectRatio>1,1</PixelAspectRatio>
+</VideoClipTrackItem>
+
+<VideoComponentChain ObjectID="185" ClassID="0970e08a-f58f-4108-b29a-1a717b8e12e2" Version="3">
+    <ComponentChain Version="3">
+        <Node Version="1">
+            <Properties Version="1">
+                <MZ.ComponentChain.ActiveComponentID>2</MZ.ComponentChain.ActiveComponentID>
+                <MZ.ComponentChain.ActiveComponentParamIndex>4294967295</MZ.ComponentChain.ActiveComponentParamIndex>
+            </Properties>
+        </Node>
+    </ComponentChain>
+    <DefaultMotion>true</DefaultMotion>
+    <DefaultMotionComponentID>1</DefaultMotionComponentID>
+    <DefaultOpacity>true</DefaultOpacity>
+    <DefaultOpacityComponentID>2</DefaultOpacityComponentID>
+</VideoComponentChain>
+
+<SubClip ObjectID="186" ClassID="e0c58dc9-dbdd-4166-aef7-5db7e3f22e84" Version="5">
+    <Clip ObjectRef="215"/>
+    <MasterClip ObjectURef="31452192-4d73-4159-b2e0-ab94da0775e0"/>
+    <Name>Nested Sequence 01</Name>
+    <OrigChGrp>0</OrigChGrp>
+</SubClip>
+
+<VideoClip ObjectID="215" ClassID="9308dbef-2440-4acb-9ab2-953b9a4e82ec" Version="11">
+    <Clip Version="18">
+        <Node Version="1">
+            <Properties Version="1">
+                <asl.clip.label.name>BE.Prefs.LabelColors.5</asl.clip.label.name>
+            </Properties>
+        </Node>
+        <Source ObjectRef="53"/>
+        <ClipID>59b71ee6-314b-498a-9a8a-56339adf8ce2</ClipID>
+        <InPoint>0</InPoint>
+        <OutPoint>151891407360000</OutPoint>
+        <IsMulticam>true</IsMulticam>
+        <SelectedTrackIndex>0</SelectedTrackIndex>
+    </Clip>
+</VideoClip>
