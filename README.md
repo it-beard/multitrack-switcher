@@ -27,6 +27,9 @@ Affter that you gonna to found `Result.prproj` file right in folder with applica
 
 <img src="https://user-images.githubusercontent.com/45439635/231894195-2a2a6968-adae-4fa5-b4b4-799239ea07ec.png" width="500" />
 
+### Result
+![image](https://user-images.githubusercontent.com/45439635/231901602-985dc43a-13d4-4591-843f-42d0810d8580.png)
+
 ### Tune settings
 * You can change sensetivity of detection for primary and secondary person. The value should be between 1 and 0. Higher number - higher sensetivity. Suggest start from defoult numbers. Can be float number (like "0.65")
 * You can change number of dilute iteration. Dilute iteration needed to dilute long frames with other plans. A long frame is anything longer than 45 seconds. For each iteration, long frames are split in half. Accordingly, it may take several iterations to split a long monologue. We recommend that you start with 3.
