@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 
 namespace PRProjMulticamCreator.Services;
 
-public static class GzipService
+public class GzipService
 {
-    public static async Task DecompressGZip(string inputPath, string outputPath)
+    public async Task DecompressAndSave(string inputPath, string outputPath)
     {
         await using var inputFileStream = new FileStream(inputPath, FileMode.Open, FileAccess.Read);
         await using var gzipStream = new GZipStream(inputFileStream, CompressionMode.Decompress);
@@ -14,7 +14,7 @@ public static class GzipService
         await gzipStream.CopyToAsync(outputFileStream);
     }
 
-    public static async Task CompressGZip(string compressedFilePath, string tempFilePath)
+    public async Task CompressAndSave(string compressedFilePath, string tempFilePath)
     {
         await using FileStream compressedFileStream = new FileStream(compressedFilePath, FileMode.Create);
         await using GZipStream gzipStream = new GZipStream(compressedFileStream, CompressionLevel.Optimal);
