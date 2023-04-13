@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Xml;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -90,11 +93,13 @@ public partial class MainWindow : Window
     {
         ProgressBar.IsVisible = true;
 
-        // decompress prproj and load it
+        // load XML
         var gzipService = new GzipService();
-        await gzipService.DecompressAndSave(PrprojPath, Constants.DecompressedPath);
-        var prproj = new XmlDocument();
-        prproj.Load(Constants.DecompressedPath);
+        var prproj = gzipService.LoadXml(PrprojPath);
+
+        // save files (for Debugging)
+        // await gzipService.DecompressAndSave(PrprojPath, Constants.DecompressedPath);
+        // prproj.Load(Constants.DecompressedPath);
 
         // process frames for two Tracks
         var frameService = new FrameService();
@@ -131,11 +136,35 @@ public partial class MainWindow : Window
         var nodeService = new NodeService();
         nodeService.UpdateMulticamTrack(prproj, result);
 
-        // save prproj
-        prproj.Save(Constants.TempFilePath);
-        await gzipService.CompressAndSave(Constants.CompressedFilePath, Constants.TempFilePath);
-
-        Result.Text = "Done! Find your Result.prproj in folder of this app :)";
+        Result.Text = "Done!";
         ProgressBar.IsVisible = false;
+        await ShowSaveFileDialog(prproj);
+
+        // save files (for Debugging)
+        // prproj.Save(Constants.TempFilePath);
+        // gzipService.CompressAndSave(Constants.CompressedFilePath, Constants.TempFilePath);
+    }
+
+    private async Task ShowSaveFileDialog(XmlDocument xmlDoc)
+    {
+        SaveFileDialog saveFileDialog = new SaveFileDialog
+        {
+            Title = "Save .prproj File",
+            DefaultExtension = "prproj",
+            Filters = new List<FileDialogFilter>
+            {
+                new FileDialogFilter { Name = "Premiere Pro Project", Extensions = new List<string> { "prproj" } }
+            }
+        };
+
+        var result = await saveFileDialog.ShowAsync(this); // 'this' refers to your window or control
+
+        if (!string.IsNullOrEmpty(result))
+        {
+            await using FileStream fs = File.Create(result);
+            await using GZipStream gzipStream = new GZipStream(fs, CompressionLevel.Optimal);
+            await using XmlTextWriter xmlWriter = new XmlTextWriter(gzipStream, Encoding.UTF8);
+            xmlDoc.Save(xmlWriter);
+        }
     }
 }

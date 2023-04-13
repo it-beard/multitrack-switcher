@@ -1,6 +1,7 @@
 using System.IO;
 using System.IO.Compression;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace PRProjMulticamCreator.Services;
 
@@ -20,5 +21,15 @@ public class GzipService
         await using GZipStream gzipStream = new GZipStream(compressedFileStream, CompressionLevel.Optimal);
         await using FileStream tempFileStream = new FileStream(tempFilePath, FileMode.Open);
         await tempFileStream.CopyToAsync(gzipStream);
+    }
+
+    public XmlDocument LoadXml(string filePath)
+    {
+        XmlDocument xmlDoc = new XmlDocument();
+        using FileStream fs = File.OpenRead(filePath);
+        using GZipStream gzipStream = new GZipStream(fs, CompressionMode.Decompress);
+        xmlDoc.Load(gzipStream);
+
+        return xmlDoc;
     }
 }
