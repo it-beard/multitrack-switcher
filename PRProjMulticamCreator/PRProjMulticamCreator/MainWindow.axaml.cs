@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -107,6 +108,7 @@ public partial class MainWindow : Window
         var allFrames = new List<FrameModel>();
         allFrames.AddRange(primaryFrames);
         allFrames.AddRange(secondarySyntheticFrames);
+        allFrames = allFrames.OrderBy(a => a.InPoint).ToList(); // sort frames by InPoint
 
         // mix short frames from real secondary Track
         var secondaryFrames = frameService.GetListOfPureWavFrames(

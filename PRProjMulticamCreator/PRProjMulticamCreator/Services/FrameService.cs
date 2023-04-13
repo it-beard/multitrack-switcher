@@ -88,7 +88,10 @@ public class FrameService
                 {
                     InPoint = dilutionFrameInPoint,
                     OutPoint = dilutionFrameOutPoint,
-                    TrackIndex = frame.TrackIndex == 1 ? 0 : 1
+                    TrackIndex =
+                        frame.TrackIndex == Constants.PremierProSecondaryTrackIndex
+                            ? Constants.PremierProPrimaryTrackIndex
+                            : Constants.PremierProSecondaryTrackIndex
                 });
                 result.Add(new FrameModel
                 {
@@ -216,7 +219,7 @@ public class FrameService
                 {
                     InPoint = frames[i].OutPoint,
                     OutPoint = frames[i+1].InPoint,
-                    TrackIndex = 0
+                    TrackIndex = Constants.PremierProPrimaryTrackIndex
                 });
             }
         }
