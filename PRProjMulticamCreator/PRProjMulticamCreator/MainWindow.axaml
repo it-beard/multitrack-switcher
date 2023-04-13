@@ -7,11 +7,44 @@
         Title="PRProjMulticamCreator">
 
     <StackPanel Orientation="Vertical">
-        <TextBlock Text="Привет! Сейчас будем обрабатывать файл"/>
-        <Button Content="Выбрать файл" Click="SelectProjFileButton_Click" />
-        <TextBlock x:Name="SelectedFile"/>
-        <Button Name="StartButton" Content="Начать анализ" Click="StartButton_Click" />
+        <TextBlock Text="Now we gonna to cut your timeline!"/>
+        <Button Content="Select .prproj file" Click="SelectPrprojFileButton_Click" />
+        <TextBlock x:Name="SelectedPrprojFile"/>
+        <Button Content="Select .wav file of prioritized speaker" Click="SelectSpeaker1WavButton_Click" />
+        <TextBlock x:Name="SelectedSpeaker1WavFile"/>
+        <Button Content="Select .wav file of second speaker" Click="SelectSpeaker2WavButton_Click" />
+        <TextBlock x:Name="SelectedSpeaker2WavFile"/>
+        <Button Name="StartButton" Content="Start CUTTING!" Click="StartButton_Click" />
         <ProgressBar x:Name="ProgressBar" IsVisible="False" IsIndeterminate="True" Margin="10"/>
         <TextBlock x:Name="Result"/>
+        <Line></Line>
+        <Border Background="LightBlue"
+                BorderBrush="Black"
+                BorderThickness="2"
+                CornerRadius="3"
+                Padding="10, 4"
+                Margin="5, 20, 5, 5">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="Fie tune panel" FontSize="20" Margin="0, 10"/>
+                <StackPanel Orientation="Horizontal" Margin="0, 10" VerticalAlignment="Center">
+                    <TextBlock Margin="0,0,10,0" Padding="0, 5">
+                        Sensitivity of prior speaker:
+                    </TextBlock>
+                    <TextBox x:Name="FirstSpeakerSensitivity"
+                             Width="10"
+                             HorizontalAlignment="Left"></TextBox>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="0,0,10,0" Padding="0, 5">
+                        Sensitivity of second speaker:
+                    </TextBlock>
+                    <TextBox  x:Name="SecondSpeakerSensitivity"
+                              Width="10"
+                              HorizontalAlignment="Left"></TextBox>
+                </StackPanel>
+            </StackPanel>
+        </Border>
     </StackPanel>
+
 </Window>
