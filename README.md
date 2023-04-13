@@ -1,5 +1,5 @@
-# Multitracker Switch
-Multitracker switch for Premier Pro. Helps to change video tracks while working interview production.
+# Premier Rpo Multitrack Switcher
+Multitrack switcher for Premier Pro. Helps to change video tracks for podcasts on two persons.
 
 Used `Avalonia UI` & `.NET 7`
 
