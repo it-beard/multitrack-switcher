@@ -23,6 +23,7 @@ public partial class MainWindow : Window
         StartButton.IsEnabled = false;
         FirstSpeakerSensitivity.Text = "0.055";
         SecondSpeakerSensitivity.Text = "0.065";
+        DiluteIterations.Value = 3;
     }
 
     private async void SelectPrprojFileButton_Click(object sender, RoutedEventArgs e)
@@ -120,7 +121,11 @@ public partial class MainWindow : Window
         var secondaryShortFrames = frameService.RemoveLongFrames(secondaryFrames);
         var allWithSecondaryShortFrames = frameService.AddShortFramesToAllFrames(secondaryShortFrames, allFrames); //merge short secondary frames with all frames
 
-        var result = frameService.DiluteLongFrames(allWithSecondaryShortFrames); // dilute long frames (#1)
+        var result = new List<FrameModel>();
+        for (int i = 0; i < DiluteIterations.Value; i++)
+        {
+            result = frameService.DiluteLongFrames(allWithSecondaryShortFrames); // dilute long frames
+        }
 
         // update multicam track
         var nodeService = new NodeService();

@@ -2,9 +2,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="550"
         x:Class="PRProjMulticamCreator.MainWindow"
-        Width="800" Height="450"
+        Width="800" Height="550"
         Title="Premier Pro Multitrack Switcher">
 
     <StackPanel Orientation="Vertical">
@@ -12,30 +12,30 @@
             <TextBlock Margin="0,0,10,10" FontSize="24" Text="Now we gonna to cut your timeline!"/>
             <StackPanel Orientation="Horizontal">
                 <Button Margin="0,0,10,10" Content="Select .prproj file" Click="SelectPrprojFileButton_Click" />
-                <TextBlock x:Name="SelectedPrprojFile"/>
+                <TextBlock x:Name="SelectedPrprojFile" FontStyle="Italic" Foreground="DimGray" Padding="0, 7"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Button Margin="0,0,10,10" Content="Select primary track" Click="SelectSpeaker1WavButton_Click" />
-                <TextBlock x:Name="SelectedSpeaker1WavFile"/>
+                <TextBlock x:Name="SelectedSpeaker1WavFile" FontStyle="Italic" Foreground="DimGray" Padding="0, 7"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Button Margin="0,0,10,10" Content="Select secondary track" Click="SelectSpeaker2WavButton_Click" />
-                <TextBlock x:Name="SelectedSpeaker2WavFile"/>
+                <TextBlock x:Name="SelectedSpeaker2WavFile" FontStyle="Italic" Foreground="DimGray" Padding="0, 7"/>
             </StackPanel>
-            <Button Name="StartButton" Margin="0,15,0,0" Background="GreenYellow" Content="Let's CUT IT!" Click="StartButton_Click" />
+            <Button Name="StartButton" FontSize="20" Margin="0,30,0,0" Background="GreenYellow" Content="Let's CUT IT!" Click="StartButton_Click" />
             <ProgressBar x:Name="ProgressBar" IsVisible="False" IsIndeterminate="True" Margin="10"/>
-            <TextBlock x:Name="Result"/>
+            <TextBlock x:Name="Result" FontSize="24" Foreground="DarkBlue" FontWeight="Bold" Margin="0, 20, 0, 20" Text=""/>
         </StackPanel>
         <Border Background="LightBlue"
                 BorderBrush="Black"
                 BorderThickness="2"
                 CornerRadius="3"
                 Padding="10, 4"
-                Margin="5, 20, 5, 5">
+                Margin="5, 0, 5, 5">
             <StackPanel Orientation="Vertical">
-                <TextBlock Text="Fie tune panel" FontSize="20" Margin="0, 10"/>
-                <StackPanel Orientation="Horizontal" Margin="0, 10" VerticalAlignment="Center">
-                    <TextBlock Margin="0,0,10,0" Padding="0, 5">
+                <TextBlock Text="Tune settings" Foreground="DarkGreen" FontWeight="Bold" FontSize="20" Margin="0, 10"/>
+                <StackPanel Orientation="Horizontal" Margin="0, 10">
+                    <TextBlock Margin="0,0,10,0" Padding="0, 7">
                         Processing sensitivity of primary track:
                     </TextBlock>
                     <TextBox x:Name="FirstSpeakerSensitivity"
@@ -43,13 +43,21 @@
                              HorizontalAlignment="Left"></TextBox>
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Margin="0,0,10,0" Padding="0, 5">
+                <StackPanel Orientation="Horizontal" Margin="0, 10">
+                    <TextBlock Margin="0,0,10,0" Padding="0, 7">
                         Processing sensitivity of secondary track:
                     </TextBlock>
                     <TextBox  x:Name="SecondSpeakerSensitivity"
                               Width="10"
                               HorizontalAlignment="Left"></TextBox>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0, 10">
+                    <TextBlock Margin="0,0,10,0" Padding="0, 7">
+                        Number of dilute iterations:
+                    </TextBlock>
+                    <NumericUpDown  x:Name="DiluteIterations"
+                                    HorizontalAlignment="Left"></NumericUpDown>
                 </StackPanel>
             </StackPanel>
         </Border>
