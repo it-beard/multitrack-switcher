@@ -31,5 +31,9 @@ Affter that you gonna to found `Result.prproj` file right in folder with applica
 * You can change sensetivity of detection for primary and secondary person. The value should be between 1 and 0. Higher number - higher sensetivity. Suggest start from defoult numbers. Can be float number (like "0.65")
 * You can change number of dilute iteration. Dilute iteration needed to dilute long frames with other plans. A long frame is anything longer than 45 seconds. For each iteration, long frames are split in half. Accordingly, it may take several iterations to split a long monologue. We recommend that you start with 3.
 
+### How to run
+* Buil & Compile - you just needed .NET7 environment
+* Or go to `multitrack-switcher/Published/Mac/`folder and just run `PRProjMulticamCreator` - this is combiled mac version of utilite 
+
 
 
