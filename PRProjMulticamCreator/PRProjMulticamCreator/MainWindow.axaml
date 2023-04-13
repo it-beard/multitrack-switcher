@@ -4,20 +4,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="PRProjMulticamCreator.MainWindow"
-        Title="PRProjMulticamCreator">
+        Width="800" Height="450"
+        Title="Premier Pro Multitrack Switcher">
 
     <StackPanel Orientation="Vertical">
-        <TextBlock Text="Now we gonna to cut your timeline!"/>
-        <Button Content="Select .prproj file" Click="SelectPrprojFileButton_Click" />
-        <TextBlock x:Name="SelectedPrprojFile"/>
-        <Button Content="Select .wav file of prioritized speaker" Click="SelectSpeaker1WavButton_Click" />
-        <TextBlock x:Name="SelectedSpeaker1WavFile"/>
-        <Button Content="Select .wav file of second speaker" Click="SelectSpeaker2WavButton_Click" />
-        <TextBlock x:Name="SelectedSpeaker2WavFile"/>
-        <Button Name="StartButton" Content="Start CUTTING!" Click="StartButton_Click" />
-        <ProgressBar x:Name="ProgressBar" IsVisible="False" IsIndeterminate="True" Margin="10"/>
-        <TextBlock x:Name="Result"/>
-        <Line></Line>
+        <StackPanel Margin="5" Orientation="Vertical">
+            <TextBlock Margin="0,0,10,10" FontSize="24" Text="Now we gonna to cut your timeline!"/>
+            <StackPanel Orientation="Horizontal">
+                <Button Margin="0,0,10,10" Content="Select .prproj file" Click="SelectPrprojFileButton_Click" />
+                <TextBlock x:Name="SelectedPrprojFile"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button Margin="0,0,10,10" Content="Select primary track" Click="SelectSpeaker1WavButton_Click" />
+                <TextBlock x:Name="SelectedSpeaker1WavFile"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button Margin="0,0,10,10" Content="Select secondary track" Click="SelectSpeaker2WavButton_Click" />
+                <TextBlock x:Name="SelectedSpeaker2WavFile"/>
+            </StackPanel>
+            <Button Name="StartButton" Margin="0,15,0,0" Background="GreenYellow" Content="Let's CUT IT!" Click="StartButton_Click" />
+            <ProgressBar x:Name="ProgressBar" IsVisible="False" IsIndeterminate="True" Margin="10"/>
+            <TextBlock x:Name="Result"/>
+        </StackPanel>
         <Border Background="LightBlue"
                 BorderBrush="Black"
                 BorderThickness="2"
@@ -28,7 +36,7 @@
                 <TextBlock Text="Fie tune panel" FontSize="20" Margin="0, 10"/>
                 <StackPanel Orientation="Horizontal" Margin="0, 10" VerticalAlignment="Center">
                     <TextBlock Margin="0,0,10,0" Padding="0, 5">
-                        Sensitivity of prior speaker:
+                        Processing sensitivity of primary track:
                     </TextBlock>
                     <TextBox x:Name="FirstSpeakerSensitivity"
                              Width="10"
@@ -37,7 +45,7 @@
 
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Margin="0,0,10,0" Padding="0, 5">
-                        Sensitivity of second speaker:
+                        Processing sensitivity of secondary track:
                     </TextBlock>
                     <TextBox  x:Name="SecondSpeakerSensitivity"
                               Width="10"
@@ -46,5 +54,4 @@
             </StackPanel>
         </Border>
     </StackPanel>
-
 </Window>
