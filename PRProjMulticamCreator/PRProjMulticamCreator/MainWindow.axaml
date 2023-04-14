@@ -48,7 +48,8 @@
                     <TextBlock Margin="0,0,10,10" FontSize="16" Text="Dilute mode:"/>
                     <ComboBox Width="145"
                               Items="{Binding DiluteModeValues}"
-                              SelectedItem="{Binding DiluteModeValue}"/>
+                              SelectedItem="{Binding DiluteModeValue}"
+                              x:Name="DiluteModeBox"/>
                 </StackPanel>
             </StackPanel>
         </StackPanel>
@@ -86,18 +87,21 @@
                     <TextBlock Margin="0,0,10,0" Padding="0, 7">
                         Number of dilute iterations:
                     </TextBlock>
-                    <NumericUpDown  x:Name="DiluteIterations"
-                                    HorizontalAlignment="Left"></NumericUpDown>
+                    <NumericUpDown Minimum="0" Maximum="10"
+                                   x:Name="DiluteIterations"
+                                   PropertyChanged="DiluteIterationsUpDown_PropertyChanged"
+                                   HorizontalAlignment="Left"/>
                     <TextBlock FontStyle="Italic" Foreground="DimGray" Padding="10, 7"
                                Text="(0 - disable dilute and leave long frames, longest than 45 sec)"/>
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal" Margin="0, 10">
+                <StackPanel Orientation="Horizontal" Margin="0, 10" x:Name="DiluteFramesDurationPanel">
                     <TextBlock Margin="0,0,10,0" Padding="0, 7">
                         Dilute frames duration in seconds:
                     </TextBlock>
-                    <NumericUpDown  x:Name="DiluteFrameDuration"
-                                    HorizontalAlignment="Left"></NumericUpDown>
+                    <NumericUpDown Minimum="1" Maximum="40"
+                                   x:Name="DiluteFrameDuration"
+                                   HorizontalAlignment="Left"/>
                     <TextBlock FontStyle="Italic" Foreground="DimGray" Padding="10, 7"
                                Text="(More than 1 and less than 40)"/>
                 </StackPanel>
