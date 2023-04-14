@@ -38,5 +38,7 @@ After that you gonna to found `Result.prproj` file right in folder with applicat
 * Build & Compile - you just needed .NET7 environment
 * Or go to `multitrack-switcher/Published/Mac/`folder and just run `PRProjMulticamCreator` - this is compiled mac version of programm
 
+## How to (for three cameras)
+In progress
 
 
