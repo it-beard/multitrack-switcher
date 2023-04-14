@@ -23,10 +23,12 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        DataContext = new MainWindowViewModel();
         StartButton.IsEnabled = false;
         FirstSpeakerSensitivity.Text = "0.055";
         SecondSpeakerSensitivity.Text = "0.065";
         DiluteIterations.Value = 3;
+        DiluteFrameDuration.Value = 4;
     }
 
     private async void SelectPrprojFileButton_Click(object sender, RoutedEventArgs e)
@@ -92,6 +94,7 @@ public partial class MainWindow : Window
     private async void StartButton_Click(object sender, RoutedEventArgs e)
     {
         ProgressBar.IsVisible = true;
+        var vm = DataContext as MainWindowViewModel;
 
         // load XML
         var gzipService = new GzipService();
@@ -129,7 +132,7 @@ public partial class MainWindow : Window
         var result = new List<FrameModel>();
         for (int i = 0; i < DiluteIterations.Value; i++)
         {
-            result = frameService.DiluteLongFrames(allWithSecondaryShortFrames); // dilute long frames
+            result = frameService.DiluteLongFrames(allWithSecondaryShortFrames, vm.DiluteModeValue, DiluteFrameDuration.Value); // dilute long frames
         }
 
         // update multicam track

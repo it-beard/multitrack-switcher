@@ -65,18 +65,18 @@ public class FrameService
         return AddPrimaryFramesInsteadOfBlack(result.OrderBy(f => f.InPoint).ToList());
     }
 
-    public List<FrameModel> DiluteLongFrames(List<FrameModel> frames)
+    public List<FrameModel> DiluteLongFrames(List<FrameModel> frames, DiluteMode mode, double dilutionFrameDuration)
     {
-        var longFrameLength = 45000 * Constants.TicksInOneMillisecond; // in ticks
-        var dilutionFrameLength = 3000 * Constants.TicksInOneMillisecond; // in ticks
+        var longFrameDuration = 45000 * Constants.TicksInOneMillisecond; // in ticks
+        var dilutionFrameDurationTicks = (long) (dilutionFrameDuration * 1000 * Constants.TicksInOneMillisecond); // in ticks
         var result = new List<FrameModel>(frames);
         foreach (var frame in frames)
         {
-            if (frame.OutPoint - frame.InPoint > longFrameLength)
+            if (frame.OutPoint - frame.InPoint > longFrameDuration)
             {
                 result.Remove(frame);
-                var dilutionFrameInPoint = frame.InPoint + (frame.OutPoint - frame.InPoint) / 2 - dilutionFrameLength / 2;
-                var dilutionFrameOutPoint = frame.InPoint + (frame.OutPoint - frame.InPoint) / 2 + dilutionFrameLength / 2;
+                var dilutionFrameInPoint = frame.InPoint + (frame.OutPoint - frame.InPoint) / 2 - dilutionFrameDurationTicks / 2;
+                var dilutionFrameOutPoint = frame.InPoint + (frame.OutPoint - frame.InPoint) / 2 + dilutionFrameDurationTicks / 2;
                 result.Add(new FrameModel
                 {
                     InPoint = frame.InPoint,
@@ -88,10 +88,7 @@ public class FrameService
                 {
                     InPoint = dilutionFrameInPoint,
                     OutPoint = dilutionFrameOutPoint,
-                    TrackIndex =
-                        frame.TrackIndex == Constants.PremierProSecondaryTrackIndex
-                            ? Constants.PremierProPrimaryTrackIndex
-                            : Constants.PremierProSecondaryTrackIndex
+                    TrackIndex = GetTrackIndexDependingOnDiluteModeAndCurrentFrameTrackIndex(mode, frame.TrackIndex)
                 });
                 result.Add(new FrameModel
                 {
@@ -225,5 +222,42 @@ public class FrameService
         }
 
         return result.OrderBy(f => f.InPoint).ToList();
+    }
+
+    private int GetTrackIndexDependingOnDiluteModeAndCurrentFrameTrackIndex(DiluteMode mode, int currentFrameTrackIndex)
+    {
+        return (mode, currentFrameTrackIndex) switch
+        {
+            (DiluteMode.TwoCameras, Constants.PremierProPrimaryTrackIndex) =>
+                Constants.PremierProSecondaryTrackIndex,
+            (DiluteMode.TwoCameras, Constants.PremierProSecondaryTrackIndex) =>
+                Constants.PremierProPrimaryTrackIndex,
+            (DiluteMode.ThreeCameras, Constants.PremierProPrimaryTrackIndex) =>
+                Constants.PremierProMasterPlanTrackIndex,
+            (DiluteMode.ThreeCameras, Constants.PremierProSecondaryTrackIndex) =>
+                Constants.PremierProMasterPlanTrackIndex,
+            (DiluteMode.ThreeCameras, Constants.PremierProMasterPlanTrackIndex) =>
+                Constants.PremierProPrimaryTrackIndex,
+            (DiluteMode.Random, Constants.PremierProPrimaryTrackIndex) =>
+                GetRandomNumberFromTwoNumbers(
+                    Constants.PremierProSecondaryTrackIndex,
+                    Constants.PremierProMasterPlanTrackIndex),
+            (DiluteMode.Random, Constants.PremierProSecondaryTrackIndex) =>
+                GetRandomNumberFromTwoNumbers(
+                    Constants.PremierProPrimaryTrackIndex,
+                    Constants.PremierProMasterPlanTrackIndex),
+            (DiluteMode.Random, Constants.PremierProMasterPlanTrackIndex) =>
+                GetRandomNumberFromTwoNumbers(
+                    Constants.PremierProPrimaryTrackIndex,
+                    Constants.PremierProSecondaryTrackIndex),
+            _ => currentFrameTrackIndex
+        };
+    }
+
+    private int GetRandomNumberFromTwoNumbers(int firstNumber, int secondNumber)
+    {
+        var random = new Random();
+        int[] numbers = { firstNumber, secondNumber };
+        return numbers[random.Next(0, numbers.Length)];
     }
 }
