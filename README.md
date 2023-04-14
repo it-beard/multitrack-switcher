@@ -4,7 +4,7 @@ Works with two or three traks (two or three cameras)
 
 Used `Avalonia UI` & `.NET 7`
 
-End planform: Mac
+End platform: Mac
 
 
 ## How to (for two cameras)
