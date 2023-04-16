@@ -357,6 +357,7 @@ MigrationBackup/
 
 .idea/
 *.DS_Store
+TestPremierProject
 
 # Ignoring
 !/Published/Mac/*.pdb
