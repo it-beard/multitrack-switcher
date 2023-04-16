@@ -47,16 +47,16 @@ public class FrameService
         return result.OrderBy(f => f.InPoint).ToList();
     }
 
-    public List<FrameModel> AddShortFramesToAllFrames(List<FrameModel> shortFrames, List<FrameModel> allFrames)
+    public List<FrameModel> AddFramesToAllFrames(List<FrameModel> newFrames, List<FrameModel> allFrames)
     {
         var result = new List<FrameModel>(allFrames);
         foreach (var frame in allFrames)
         {
-            foreach (var shortFrame in shortFrames)
+            foreach (var newFrame in newFrames)
             {
-                if (shortFrame.InPoint > frame.InPoint && shortFrame.OutPoint < frame.OutPoint)
+                if (newFrame.InPoint > frame.InPoint && newFrame.OutPoint < frame.OutPoint)
                 {
-                    result.Add(shortFrame);
+                    result.Add(newFrame);
                     result.Remove(frame);
                 }
             }
@@ -198,6 +198,62 @@ public class FrameService
         }
 
         return listOfFrames.OrderBy(f => f.InPoint).ToList();
+    }
+
+    public List<FrameModel> GetOverlappingFrames(List<FrameModel> firstFrames, List<FrameModel> secondFrames)
+    {
+        var result = new List<FrameModel>();
+        if (firstFrames.Count == 0 || secondFrames.Count == 0)
+        {
+            return result;
+        }
+
+        var firstFramesEnumerator = firstFrames.GetEnumerator();
+        var secondFramesEnumerator = secondFrames.GetEnumerator();
+        firstFramesEnumerator.MoveNext();
+        secondFramesEnumerator.MoveNext();
+        while (true)
+        {
+            if (firstFramesEnumerator.Current.OutPoint <= secondFramesEnumerator.Current.InPoint)
+            {
+                if (!firstFramesEnumerator.MoveNext())
+                {
+                    break;
+                }
+            }
+            else if (secondFramesEnumerator.Current.OutPoint <= firstFramesEnumerator.Current.InPoint)
+            {
+                if (!secondFramesEnumerator.MoveNext())
+                {
+                    break;
+                }
+            }
+            else
+            {
+                result.Add(new FrameModel
+                {
+                    InPoint = Math.Max(firstFramesEnumerator.Current.InPoint, secondFramesEnumerator.Current.InPoint),
+                    OutPoint = Math.Min(firstFramesEnumerator.Current.OutPoint, secondFramesEnumerator.Current.OutPoint),
+                    TrackIndex = Constants.PremierProMasterPlanTrackIndex
+                });
+                if (firstFramesEnumerator.Current.OutPoint < secondFramesEnumerator.Current.OutPoint)
+                {
+                    if (!firstFramesEnumerator.MoveNext())
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    if (!secondFramesEnumerator.MoveNext())
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+
+        return result.OrderBy(f => f.InPoint).ToList();
     }
 
     private List<FrameModel> AddPrimaryFramesInsteadOfBlack(List<FrameModel> frames)

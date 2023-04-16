@@ -45,7 +45,7 @@ public partial class MainWindow : Window
         // await gzipService.DecompressAndSave(PrprojPath, Constants.DecompressedPath);
         // prproj.Load(Constants.DecompressedPath);
 
-        // process frames for two Tracks
+        // prepare frames (primary, secondary, secondarySynthetic)
         var frameService = new FrameService();
         var primaryFrames = frameService.GetListOfPureWavFrames(
             Speaker1Wav,
@@ -55,20 +55,30 @@ public partial class MainWindow : Window
         primaryFrames = frameService.MergeThroughSilence(primaryFrames);
         var secondarySyntheticFrames = frameService.GetSyntheticFrames(primaryFrames); // create synthetic frames for secondary Track
 
-        var allFrames = new List<FrameModel>();
-        allFrames.AddRange(primaryFrames);
-        allFrames.AddRange(secondarySyntheticFrames);
-        allFrames = allFrames.OrderBy(a => a.InPoint).ToList(); // sort frames by InPoint
-
-        // mix short frames from real secondary Track
         var secondaryFrames = frameService.GetListOfPureWavFrames(
             Speaker2Wav,
             SecondSpeakerSensitivity.Text.ToDouble(),
             Constants.PremierProSecondaryTrackIndex); // get real frames from secondary Track
         secondaryFrames = frameService.RemoveNoiseFrames(secondaryFrames);
         secondaryFrames = frameService.MergeThroughSilence(secondaryFrames);
+
+        // prepare fully frames list (based on primary and secondarySynthetic frames)
+        var allFrames = new List<FrameModel>();
+        allFrames.AddRange(primaryFrames);
+        allFrames.AddRange(secondarySyntheticFrames);
+        allFrames = allFrames.OrderBy(a => a.InPoint).ToList(); // sort frames by InPoint
+
+        if(vm.IsThreeCameraMode)
+        {
+            var overlappingFrames = frameService.GetOverlappingFrames(primaryFrames, secondaryFrames);
+            overlappingFrames = frameService.RemoveNoiseFrames(overlappingFrames);
+            overlappingFrames = frameService.MergeThroughSilence(overlappingFrames);
+            allFrames = frameService.AddFramesToAllFrames(overlappingFrames, allFrames); //merge overlapping frames with all frames
+        }
+
+        // mix short secondary frames to allFrames
         var secondaryShortFrames = frameService.RemoveLongFrames(secondaryFrames);
-        var allWithSecondaryShortFrames = frameService.AddShortFramesToAllFrames(secondaryShortFrames, allFrames); //merge short secondary frames with all frames
+        var allWithSecondaryShortFrames = frameService.AddFramesToAllFrames(secondaryShortFrames, allFrames); //merge short secondary frames with all frames
 
         // start dilute long frames
         var result = new List<FrameModel>();
@@ -182,6 +192,11 @@ public partial class MainWindow : Window
                 DiluteModeBox.IsEnabled = false;
             }
         }
+    }
+
+    private void IsTwoCameraMode_On(object sender, RoutedEventArgs e)
+    {
+        DiluteModeBox.SelectedIndex = (int)DiluteMode.TwoCameras;
     }
 
     private void CheckStartButtonEnabled()

@@ -39,7 +39,8 @@
                 <RadioButton GroupName="CameraMode"
                              IsChecked="{Binding IsThreeCameraMode,
                                 Converter={x:Static controlsBindings:BooleanNegationConverter.Instance}}"
-                             Content="Two (speakers plans)"/>
+                             Content="Two (speakers plans)"
+                             Checked="IsTwoCameraMode_On"/>
                 <RadioButton GroupName="CameraMode"
                              IsChecked="{Binding IsThreeCameraMode}"
                              Content="Three (with master plan)"/>
