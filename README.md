@@ -13,7 +13,7 @@ Basicaly the program switches on the camera from track `V1`, if the primary spea
 
 ## How to start
 ### Prerequisite
-* The sequence is `25 frames per second'. This is necessary for proper synchronization. The program does not currently support other frame rates.
+* The sequence is `25 frames per second`. This is necessary for proper synchronization. The program does not currently support other frame rates.
 
 ![image](https://user-images.githubusercontent.com/45439635/232479330-0fb90ad2-7ceb-4bcc-a91e-30b4e66f8cb6.png)
 
@@ -34,7 +34,7 @@ Basicaly the program switches on the camera from track `V1`, if the primary spea
 
 ### Two-camera workflow (good for podcasters)
 * Select your `.prproj` file, `.wav` tracks for primary and secondary speaker. Click to `"Let's CUT IT!"` button. 
-* After a while (10 - 100 seconds) the program will prompt you to save the result to the `.prproj` file. Save it in the `.prproj' folder of the original file. Then open this new `.prproj' file in Premier Pro and have fun! 😎
+* After a while (10 - 100 seconds) the program will prompt you to save the result to the `.prproj` file. Save it in the `.prproj` folder of the original file. Then open this new `.prproj` file in Premier Pro and have fun! 😎
 
 Result multi-cam will be shown smtg like this:
 ![image](https://user-images.githubusercontent.com/45439635/231901602-985dc43a-13d4-4591-843f-42d0810d8580.png)
@@ -50,7 +50,7 @@ Result multi-cam will be shown smtg like this:
    * `Random` - using random plans to dilute
    
    ![image](https://user-images.githubusercontent.com/45439635/232481481-366c98e3-7c1a-4840-aa71-08c83086c934.png)
-* After a while (10 - 100 seconds) the program will prompt you to save the result to the `.prproj` file. Save it in the `.prproj' folder of the original file. Then open this new `.prproj' file in Premier Pro and have fun! 😎
+* After a while (10 - 100 seconds) the program will prompt you to save the result to the `.prproj` file. Save it in the `.prproj` folder of the original file. Then open this new `.prproj` file in Premier Pro and have fun! 😎
 
 
 ### Tune settings
