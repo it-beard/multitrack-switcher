@@ -43,13 +43,13 @@ Result multi-cam will be shown smtg like this:
 * Select your `.prproj` file, `.wav` tracks for primary and secondary speaker. Click to `"Let's CUT IT!"` button.
 * Set the `three-camera mode` by pressing the `Three (with master plan)` radio button.
 
-![image](https://user-images.githubusercontent.com/45439635/232481189-6257cb08-eb1c-4d32-8c13-8ab9ba90c504.png)
+   <img src="https://user-images.githubusercontent.com/45439635/232481189-6257cb08-eb1c-4d32-8c13-8ab9ba90c504.png" width="150" />
 * Select preffered dilute mode
    * `TwoCameras` - using the plans of one of the speakers to dilute
    * `ThreeCameras` - using master-plans to dilute
    * `Random` - using random plans to dilute
    
-   ![image](https://user-images.githubusercontent.com/45439635/232481481-366c98e3-7c1a-4840-aa71-08c83086c934.png)
+   <img src="https://user-images.githubusercontent.com/45439635/232481481-366c98e3-7c1a-4840-aa71-08c83086c934.png" width="150" />
 * After a while (10 - 100 seconds) the program will prompt you to save the result to the `.prproj` file. Save it in the `.prproj` folder of the original file. Then open this new `.prproj` file in Premier Pro and have fun! 😎
 
 
