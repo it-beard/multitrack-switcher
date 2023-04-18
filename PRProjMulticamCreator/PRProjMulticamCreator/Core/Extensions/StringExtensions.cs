@@ -9,4 +9,10 @@ public static class StringExtensions
         var result = double.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out var doubleValue);
         return result ? doubleValue : 0;
     }
+
+    public static int ToInt(this string value)
+    {
+        var result = int.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out var doubleValue);
+        return result ? doubleValue : 0;
+    }
 }

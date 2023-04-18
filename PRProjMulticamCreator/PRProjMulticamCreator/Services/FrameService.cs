@@ -11,9 +11,8 @@ namespace PRProjMulticamCreator.Services;
 public class FrameService
 {
     private const int MinimumSilenceDuration = 1500; // in milliseconds
-    public List<FrameModel> RemoveNoiseFrames(List<FrameModel> frames)
+    public List<FrameModel> RemoveNoiseFrames(List<FrameModel> frames, int noiseFrameDuration = MinimumSilenceDuration / 2)
     {
-        const int noiseFrameLength = MinimumSilenceDuration / 2;
         var result = new List<FrameModel>();
         if (frames.Count == 0)
         {
@@ -22,7 +21,7 @@ public class FrameService
 
         result.AddRange(
             frames.Where(
-                frame => frame.OutPoint - frame.InPoint > noiseFrameLength * Constants.TicksInOneMillisecond));
+                frame => frame.OutPoint - frame.InPoint >= noiseFrameDuration * Constants.TicksInOneMillisecond));
 
         return result.OrderBy(f => f.InPoint).ToList();
     }

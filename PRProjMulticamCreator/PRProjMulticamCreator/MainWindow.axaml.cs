@@ -28,6 +28,7 @@ public partial class MainWindow : Window
         StartButton.IsEnabled = false;
         FirstSpeakerSensitivity.Text = "0.055";
         SecondSpeakerSensitivity.Text = "0.065";
+        ThirdCameraNoisyFrameDuration.Text = "1500";
         DiluteIterations.Value = 3;
         DiluteFrameDuration.Value = 4;
     }
@@ -71,7 +72,7 @@ public partial class MainWindow : Window
         if(vm.IsThreeCameraMode)
         {
             var overlappingFrames = frameService.GetOverlappingFrames(primaryFrames, secondaryFrames);
-            overlappingFrames = frameService.RemoveNoiseFrames(overlappingFrames);
+            overlappingFrames = frameService.RemoveNoiseFrames(overlappingFrames, SecondSpeakerSensitivity.Text.ToInt());
             overlappingFrames = frameService.MergeThroughSilence(overlappingFrames);
             allFrames = frameService.AddFramesToAllFrames(overlappingFrames, allFrames); //merge overlapping frames with all frames
         }
