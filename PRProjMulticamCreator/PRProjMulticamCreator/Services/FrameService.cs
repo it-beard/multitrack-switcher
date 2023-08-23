@@ -10,8 +10,7 @@ namespace PRProjMulticamCreator.Services;
 
 public class FrameService
 {
-    private const int MinimumSilenceDuration = 1500; // in milliseconds
-    public List<FrameModel> RemoveNoiseFrames(List<FrameModel> frames, int noiseFrameDuration = MinimumSilenceDuration / 2)
+    public List<FrameModel> RemoveNoiseFrames(List<FrameModel> frames, int noiseFrameDuration)
     {
         var result = new List<FrameModel>();
         if (frames.Count == 0)
@@ -23,12 +22,35 @@ public class FrameService
             frames.Where(
                 frame => frame.OutPoint - frame.InPoint >= noiseFrameDuration * Constants.TicksInOneMillisecond));
 
-        return result.OrderBy(f => f.InPoint).ToList();
+        var newFrames = result.OrderBy(f => f.InPoint).ToList();
+
+        var finalResult = new List<FrameModel>();
+        if (frames.Count == 0)
+        {
+            return finalResult;
+        }
+
+        var currentFrame = newFrames[0];
+        for (int i = 1; i < newFrames.Count; i++)
+        {
+            if (newFrames[i].InPoint - currentFrame.OutPoint <= noiseFrameDuration * Constants.TicksInOneMillisecond)
+            {
+                currentFrame.OutPoint = newFrames[i].OutPoint;
+            }
+            else
+            {
+                finalResult.Add(currentFrame);
+                currentFrame = newFrames[i];
+            }
+
+        }
+
+        return finalResult.OrderBy(f => f.InPoint).ToList();
     }
 
-    public List<FrameModel> RemoveLongFrames(List<FrameModel> frames)
+    public List<FrameModel> RemoveLongFrames(List<FrameModel> frames, int noiseFrameDuration)
     {
-        const int longFrameLength = MinimumSilenceDuration * 2;
+        int longFrameLength = noiseFrameDuration * 2;
         var result = new List<FrameModel>();
         foreach (var frame in frames)
         {
@@ -127,40 +149,13 @@ public class FrameService
         return result.OrderBy(f => f.InPoint).ToList();
     }
 
-    public List<FrameModel> MergeThroughSilence(List<FrameModel> frames)
-    {
-        var silenceStep = MinimumSilenceDuration;
-        var result = new List<FrameModel>();
-        if (frames.Count == 0)
-        {
-            return result;
-        }
-
-        var currentFrame = frames[0];
-        for (int i = 1; i < frames.Count; i++)
-        {
-            if (frames[i].InPoint - currentFrame.OutPoint <= silenceStep * Constants.TicksInOneMillisecond)
-            {
-                currentFrame.OutPoint = frames[i].OutPoint;
-            }
-            else
-            {
-                result.Add(currentFrame);
-                currentFrame = frames[i];
-            }
-
-        }
-
-        return result.OrderBy(f => f.InPoint).ToList();
-    }
-
     public List<FrameModel> GetListOfPureWavFrames(string wavFilePath, double threshold, int trackIndex)
     {
         var listOfFrames = new List<FrameModel>();
 
         using AudioFileReader reader = new AudioFileReader(wavFilePath);
         var samplesPerMillisecond = reader.WaveFormat.SampleRate / 1000;
-        int bufferSize = MinimumSilenceDuration * samplesPerMillisecond;
+        int bufferSize = 500 * samplesPerMillisecond;
         float[] buffer = new float[bufferSize];
         int bytesRead;
 

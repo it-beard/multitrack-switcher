@@ -108,16 +108,15 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="0, 10"
-                            x:Name="ThirdCameraNoisyFramesDurationPanel"
-                            IsVisible="{Binding IsThreeCameraMode}">
+                            x:Name="NoisyFramesDurationPanel">
                     <TextBlock Margin="0,0,10,0" Padding="0, 7">
                         Duration of noisy frames:
                     </TextBlock>
-                    <TextBox x:Name="ThirdCameraNoisyFrameDuration"
+                    <TextBox x:Name="NoisyFrameDuration"
                               Width="8"
                               HorizontalAlignment="Left"/>
                     <TextBlock FontStyle="Italic" Foreground="DimGray" Padding="10, 7"
-                               Text="in milliseconds (only frames >= this value will be used from the third camera)"/>
+                               Text="(In milliseconds, not less than 500, divisible by 500)"/>
                 </StackPanel>
             </StackPanel>
         </Border>

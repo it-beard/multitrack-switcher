@@ -28,7 +28,7 @@ public partial class MainWindow : Window
         StartButton.IsEnabled = false;
         FirstSpeakerSensitivity.Text = "0.055";
         SecondSpeakerSensitivity.Text = "0.065";
-        ThirdCameraNoisyFrameDuration.Text = "1500";
+        NoisyFrameDuration.Text = "2000";
         DiluteIterations.Value = 3;
         DiluteFrameDuration.Value = 4;
     }
@@ -52,16 +52,14 @@ public partial class MainWindow : Window
             Speaker1Wav,
             FirstSpeakerSensitivity.Text.ToDouble(),
             Constants.PremierProPrimaryTrackIndex); // get real frames from primary Track
-        primaryFrames = frameService.RemoveNoiseFrames(primaryFrames);
-        primaryFrames = frameService.MergeThroughSilence(primaryFrames);
+        primaryFrames = frameService.RemoveNoiseFrames(primaryFrames, NoisyFrameDuration.Text.ToInt());
         var secondarySyntheticFrames = frameService.GetSyntheticFrames(primaryFrames); // create synthetic frames for secondary Track
 
         var secondaryFrames = frameService.GetListOfPureWavFrames(
             Speaker2Wav,
             SecondSpeakerSensitivity.Text.ToDouble(),
             Constants.PremierProSecondaryTrackIndex); // get real frames from secondary Track
-        secondaryFrames = frameService.RemoveNoiseFrames(secondaryFrames);
-        secondaryFrames = frameService.MergeThroughSilence(secondaryFrames);
+        secondaryFrames = frameService.RemoveNoiseFrames(secondaryFrames, NoisyFrameDuration.Text.ToInt());
 
         // prepare fully frames list (based on primary and secondarySynthetic frames)
         var allFrames = new List<FrameModel>();
@@ -72,13 +70,12 @@ public partial class MainWindow : Window
         if(vm.IsThreeCameraMode)
         {
             var overlappingFrames = frameService.GetOverlappingFrames(primaryFrames, secondaryFrames);
-            overlappingFrames = frameService.RemoveNoiseFrames(overlappingFrames, SecondSpeakerSensitivity.Text.ToInt());
-            overlappingFrames = frameService.MergeThroughSilence(overlappingFrames);
+            overlappingFrames = frameService.RemoveNoiseFrames(overlappingFrames, NoisyFrameDuration.Text.ToInt());
             allFrames = frameService.AddFramesToAllFrames(overlappingFrames, allFrames); //merge overlapping frames with all frames
         }
 
         // mix short secondary frames to allFrames
-        var secondaryShortFrames = frameService.RemoveLongFrames(secondaryFrames);
+        var secondaryShortFrames = frameService.RemoveLongFrames(secondaryFrames, NoisyFrameDuration.Text.ToInt());
         var allWithSecondaryShortFrames = frameService.AddFramesToAllFrames(secondaryShortFrames, allFrames); //merge short secondary frames with all frames
 
         // start dilute long frames
